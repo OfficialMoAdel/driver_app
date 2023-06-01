@@ -49,6 +49,8 @@ dependencies:
   sqflite:
   url_launcher:
   firebase_core: ^2.13.0
+  firebase_database: ^10.2.2
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:

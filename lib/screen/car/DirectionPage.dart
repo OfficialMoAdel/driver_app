@@ -1,40 +1,36 @@
 import 'dart:async';
-import 'package:driver_app/widgets/coustom_button.dart';
+import 'package:driver_app/screen/car/pay_with_nfc.dart';
+import 'package:driver_app/widgets/halper_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:driver_app/widgets/coustom_button.dart';
 import '../../constants.dart';
-import '../../model/location_helper.dart';
 import '../../widgets/digle.dart';
 
 class DirectionPage extends StatefulWidget {
+  final Position position;
   DirectionPage({
-    super.key,
-  });
+    Key? key,
+    required this.position,
+  }) : super(key: key);
 
   @override
   State<DirectionPage> createState() => _DirectionPageState();
 }
 
 class _DirectionPageState extends State<DirectionPage> {
-  Set<Marker> markers = Set();
+  // Set<Marker> markers = Set();
   late Marker searchedPlaceMarker;
   late Marker currentLocationMarker;
   Completer<GoogleMapController> _mapController = Completer();
-  static Position? position;
   final interval = const Duration(seconds: 1);
-
   final int timerMaxSeconds = 60;
-
   int currentSeconds = 0;
+  late Position? position;
+  late CameraPosition _myCurrentLocationCameraPosition;
 
-  static final CameraPosition _myCurrentLocationCameraPosition = CameraPosition(
-    bearing: 0.0,
-    target: LatLng(position!.latitude, position!.longitude),
-    tilt: 0.0,
-    zoom: 17,
-  );
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
@@ -52,10 +48,16 @@ class _DirectionPageState extends State<DirectionPage> {
   @override
   initState() {
     super.initState();
-    getMyCurrentLocation();
+    final position = widget.position;
+    _myCurrentLocationCameraPosition = CameraPosition(
+      bearing: 0.0,
+      target: LatLng(widget.position!.latitude, widget.position!.longitude),
+      tilt: 0.0,
+      zoom: 17,
+    );
     startTimeout();
   }
-
+/* 
   void buildCurrentLocationMarker() {
     currentLocationMarker = Marker(
       markerId: MarkerId('2'),
@@ -66,13 +68,7 @@ class _DirectionPageState extends State<DirectionPage> {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
-  }
-
-  Future<void> getMyCurrentLocation() async {
-    position = await LocationHelper.getCurrentLocation().whenComplete(() {
-      setState(() {});
-    });
-  }
+  } */
 
   Future _goToMyCurrentLocation() async {
     final GoogleMapController controller = await _mapController.future;
@@ -92,7 +88,7 @@ class _DirectionPageState extends State<DirectionPage> {
           CircleAvatar(
             backgroundColor: YallowColor,
             child: InkWell(
-              onTap: () {}, //_goToMyCurrentLocation,
+              onTap: _goToMyCurrentLocation,
               child: SvgPicture.asset(
                 'assets/icon/Location.svg',
               ),
@@ -123,7 +119,7 @@ class _DirectionPageState extends State<DirectionPage> {
       body: Stack(
         children: [
           GoogleMap(
-            markers: markers,
+            // markers: markers,
             mapType: MapType.normal,
             myLocationEnabled: true,
             zoomControlsEnabled: false,
@@ -132,13 +128,6 @@ class _DirectionPageState extends State<DirectionPage> {
             onMapCreated: (GoogleMapController controller) {
               _mapController.complete(controller);
             },
-          ),
-          const Center(
-            child: Icon(
-              Icons.location_on,
-              color: PrimaryColor,
-              size: 36,
-            ),
           ),
           DraggableScrollableSheet(
             initialChildSize: 0.23,
@@ -385,7 +374,7 @@ class _DirectionPageState extends State<DirectionPage> {
                                       imagePath: 'assets/image/Group.svg',
                                       buttonText: "paying off",
                                       onButtonPressed: () {
-                                        Navigator.of(context).pop();
+                                        context.push(new PayWithNfc());
                                       },
                                       buttonText2: "Payment completed",
                                       onButtonPressed2: () {

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:driver_app/screen/car/DirectionPage.dart';
-import 'package:driver_app/widgets/halper_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,13 +13,10 @@ import '../../model/place.dart';
 import '../../model/place_diraction.dart';
 import '../../widgets/coustom_button.dart';
 import '../../constants.dart';
-import '../../widgets/custom-text_filed.dart';
 import '../../widgets/distance_and_time.dart';
 import '../../widgets/place_item.dart';
 import '../../widgets/socal_card.dart';
 import '../../widgets/toggle.dart';
-import '../customcard.dart';
-import 'AddressDirectionPage.dart';
 
 class HomepageCar extends StatefulWidget {
   const HomepageCar({super.key});
@@ -81,12 +77,6 @@ class _HomepageCarState extends State<HomepageCar> {
     getMyCurrentLocation();
   }
 
-/* 
-  Future<void> getMyCurrentLocation() async {
-    position = await LocationHelper.getCurrentLocation().whenComplete(() {
-      setState(() {});
-    });
-  } */
   Future<void> getMyCurrentLocation() async {
     try {
       position = await LocationHelper.getCurrentLocation().whenComplete(() {
@@ -583,14 +573,20 @@ class _HomepageCarState extends State<HomepageCar> {
                                         CustomButoonCard(
                                           backgroundColor: PrimaryColor,
                                           press: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DirectionPage(),
-                                              ),
-                                            );
-                                            //context.push( DirectionPage(position: position));
+                                            if (position != null) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DirectionPage(
+                                                    position:
+                                                        position!, // Access the non-nullable position value using the '!' operator
+                                                    key: ValueKey(
+                                                        'directionPage'),
+                                                  ),
+                                                ),
+                                              );
+                                            }
                                           },
                                           text: 'Accept',
                                         ),
