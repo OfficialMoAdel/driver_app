@@ -2,6 +2,7 @@ import 'package:driver_app/cubit/maps/maps_cubit.dart';
 import 'package:driver_app/repository/maps_repo.dart';
 import 'package:driver_app/screen/car/main_page_car.dart';
 import 'package:driver_app/webServices/PlaceWebServices.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/auth/auth_cubit.dart';
@@ -16,6 +17,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();//
   isViewed = prefs.getInt('IntroPage'); */
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           //home: isViewed != 0 ? OnBoard() : LetsIn(),
-          home: MainPagecar(),
+          home: SplashScreen(),
           routes: routes,
           //initialRoute: SplashScreen.id,
           theme: ThemeData().copyWith(
