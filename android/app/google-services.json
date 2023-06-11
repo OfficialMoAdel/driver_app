@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "336022166692",
+    "firebase_url": "https://project-e192e-default-rtdb.firebaseio.com",
+    "project_id": "project-e192e",
+    "storage_bucket": "project-e192e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336022166692:android:20f400754cfa0fd8051a31",
+        "android_client_info": {
+          "package_name": "com.example.driver_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336022166692-m06c3231v6q14tvuigl7332bpg604oca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmjQ6ffSFD2zd_xaQ3ohOxa_xCdB0vAQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336022166692-m06c3231v6q14tvuigl7332bpg604oca.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336022166692:android:02ab2d45f3b0368d051a31",
+        "android_client_info": {
+          "package_name": "com.example.flutter_nfc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336022166692-m06c3231v6q14tvuigl7332bpg604oca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmjQ6ffSFD2zd_xaQ3ohOxa_xCdB0vAQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336022166692-m06c3231v6q14tvuigl7332bpg604oca.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

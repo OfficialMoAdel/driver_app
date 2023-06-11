@@ -1,3 +1,5 @@
+import 'package:driver_app/screen/car/home_page_car.dart';
+import 'package:driver_app/widgets/halper_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'ActiveNow.dart';
@@ -38,7 +40,7 @@ class _BookingPageState extends State<BookingPage>
           actions: [
             GestureDetector(
                 onTap: () {
-                  //  context.push(new HomepageCar());
+                    context.push(new HomepageCar());
                 },
                 child: SvgPicture.asset('assets/icon/Search.svg')),
             const SizedBox(

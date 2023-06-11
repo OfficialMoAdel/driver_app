@@ -10,6 +10,7 @@ import 'screen/intro_screen/splash_screen.dart';
 import 'routes.dart';
 
 int? isViewed;
+
 void main() async {
   /* SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           //home: isViewed != 0 ? OnBoard() : LetsIn(),
-          home: SplashScreen(),
+          home: MainPagecar(),
           routes: routes,
           //initialRoute: SplashScreen.id,
           theme: ThemeData().copyWith(

@@ -124,7 +124,7 @@ class WalletScreen extends StatelessWidget {
                                   width: 8,
                                 ),
                                 Text(
-                                  'withdraw',
+                                  'Top Up',
                                   style: TextStyle(
                                       color: ThirdColor, fontSize: 18),
                                 )

@@ -33,6 +33,14 @@ class MainApp extends StatelessWidget {
                 onTap: () => {context.push(new MainPagecar())},
               ),
               CoustomButton(
+                text: 'Bus',
+                //onTap: () => {context.push(new MainPageBus())},
+              ),
+              CoustomButton(
+                text: 'MicroBus',
+                onTap: () => {context.push(new App())},
+              ),
+              CoustomButton(
                 text: 'Managementcard',
                 onTap: () => {context.push(new App())},
               ),

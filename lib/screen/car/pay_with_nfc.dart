@@ -3,6 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../constants.dart';
+
 class PayWithNfc extends StatefulWidget {
   const PayWithNfc({Key? key}) : super(key: key);
 
@@ -74,7 +77,7 @@ class _PayWithNfcState extends State<PayWithNfc> {
                               height: 60,
                               width: 300,
                               decoration: BoxDecoration(
-                                color: Colors.yellow,
+                                color: PrimaryColor,
                                 borderRadius: BorderRadius.circular(
                                     30), // adjust the radius to make the border more or less circular
                               ),
@@ -93,7 +96,7 @@ class _PayWithNfcState extends State<PayWithNfc> {
                       ));
                 },
               ).then(
-                    (value) {
+                (value) {
                   NfcManager.instance.stopSession();
                 },
               );
@@ -103,7 +106,7 @@ class _PayWithNfcState extends State<PayWithNfc> {
               height: 60,
               width: 300,
               decoration: BoxDecoration(
-                color: Colors.yellow,
+                color: PrimaryColor,
                 borderRadius: BorderRadius.circular(
                     30), // adjust the radius to make the border more or less circular
               ),
@@ -122,6 +125,7 @@ class _PayWithNfcState extends State<PayWithNfc> {
       ),
     );
   }
+
   void updateBalance() {
     final balanceRef = databaseReference.child('$hexID/balance');
     balanceRef.once().then((DatabaseEvent event) {

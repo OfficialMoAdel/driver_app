@@ -21,28 +21,63 @@ class DirectionPage extends StatefulWidget {
 }
 
 class _DirectionPageState extends State<DirectionPage> {
-  // Set<Marker> markers = Set();
-  late Marker searchedPlaceMarker;
-  late Marker currentLocationMarker;
+  Set<Marker> _markers = {};
+  Set<Polyline> _polylines = {};
   Completer<GoogleMapController> _mapController = Completer();
-  final interval = const Duration(seconds: 1);
-  final int timerMaxSeconds = 60;
-  int currentSeconds = 0;
   late Position? position;
   late CameraPosition _myCurrentLocationCameraPosition;
+  late Timer _timer;
+  Duration _remainingTime =
+      Duration(minutes: 5); // Set the initial countdown duration
+  String _timerText = '05:00';
 
-  String get timerText =>
-      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
-  startTimeout([int timerMaxSeconds = 60]) {
-    var duration = interval;
-    Timer.periodic(duration, (timer) {
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        print(timer.tick);
-        currentSeconds = timer.tick;
-        if (timer.tick >= timerMaxSeconds) timer.cancel();
+        if (_remainingTime.inSeconds > 0) {
+          _remainingTime = _remainingTime - Duration(seconds: 1);
+          _timerText = _formatDuration(_remainingTime);
+        } else {
+          _timer.cancel();
+        }
       });
     });
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes);
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$twoDigitMinutes:$twoDigitSeconds';
+  }
+
+  void _addMarkers() {
+    _markers.add(Marker(
+      markerId: MarkerId('marker1'),
+      position: LatLng(37.42796133580664, -122.085749655962),
+    ));
+    _markers.add(Marker(
+      markerId: MarkerId('marker2'),
+      position: LatLng(37.42496133580664, -122.082749655962),
+    ));
+  }
+
+  void _addPolyline() {
+    _polylines.add(Polyline(
+      polylineId: PolylineId('route1'),
+      points: [
+        LatLng(37.42796133580664, -122.085749655962),
+        LatLng(37.42496133580664, -122.082749655962),
+      ],
+      width: 3,
+      color: Colors.blue,
+    ));
   }
 
   @override
@@ -51,11 +86,12 @@ class _DirectionPageState extends State<DirectionPage> {
     final position = widget.position;
     _myCurrentLocationCameraPosition = CameraPosition(
       bearing: 0.0,
-      target: LatLng(widget.position!.latitude, widget.position!.longitude),
+      target: LatLng(widget.position.latitude, widget.position.longitude),
       tilt: 0.0,
       zoom: 17,
     );
-    startTimeout();
+    _addMarkers();
+    _addPolyline();
   }
 /* 
   void buildCurrentLocationMarker() {
@@ -119,7 +155,8 @@ class _DirectionPageState extends State<DirectionPage> {
       body: Stack(
         children: [
           GoogleMap(
-            // markers: markers,
+            markers: _markers,
+            polylines: _polylines,
             mapType: MapType.normal,
             myLocationEnabled: true,
             zoomControlsEnabled: false,
@@ -338,7 +375,7 @@ class _DirectionPageState extends State<DirectionPage> {
                                             BorderRadius.circular(20)),
                                     child: Center(
                                       child: Text(
-                                        timerText,
+                                        _timerText,
                                       ),
                                     ),
                                     width: 90,
@@ -356,7 +393,7 @@ class _DirectionPageState extends State<DirectionPage> {
                             text: 'Strat Ride',
                             onTap: () {
                               setState(() {
-                                startTimeout();
+                                _startTimer();
                               });
                             }),
                         SizedBox(
